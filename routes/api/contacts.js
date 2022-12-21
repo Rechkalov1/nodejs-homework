@@ -1,6 +1,8 @@
 const express = require("express");
 const ctrl = require("../../controllers/contacts");
 const { ctrlWrapper } = require("../../helpers");
+const { schemas } = require("../../models/contact");
+const { validateBody } = require("../../middleware");
 
 const router = express.Router();
 
@@ -8,10 +10,14 @@ router.get("/", ctrlWrapper(ctrl.getAll));
 
 router.get("/:id", ctrlWrapper(ctrl.getById));
 
-router.post("/", ctrlWrapper(ctrl.add));
+router.post("/", validateBody(schemas.addSchema), ctrlWrapper(ctrl.add));
 
 router.delete("/:id", ctrlWrapper(ctrl.remove));
 
-router.put("/:id", ctrlWrapper(ctrl.updateById));
+router.put(
+  "/:id",
+  validateBody(schemas.addSchema),
+  ctrlWrapper(ctrl.updateById)
+);
 
 module.exports = router;
