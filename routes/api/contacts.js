@@ -2,20 +2,26 @@ const express = require("express");
 const ctrl = require("../../controllers/contacts");
 const { ctrlWrapper } = require("../../helpers");
 const { schemas } = require("../../models/contact");
-const { validateBody } = require("../../middleware");
+const { validateBody, isValidId } = require("../../middleware");
 
 const router = express.Router();
 
 router.get("/", ctrlWrapper(ctrl.getAll));
 
-router.get("/:id", ctrlWrapper(ctrl.getById));
+router.get("/:id", isValidId, ctrlWrapper(ctrl.getById));
 
-router.post("/", validateBody(schemas.addSchema), ctrlWrapper(ctrl.add));
+router.post(
+  "/",
 
-router.delete("/:id", ctrlWrapper(ctrl.remove));
+  validateBody(schemas.addSchema),
+  ctrlWrapper(ctrl.add)
+);
+
+router.delete("/:id", isValidId, ctrlWrapper(ctrl.remove));
 
 router.put(
   "/:id",
+  isValidId,
   validateBody(schemas.addSchema),
   ctrlWrapper(ctrl.updateById)
 );
