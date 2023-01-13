@@ -21,7 +21,7 @@ router.post("/logout", authenticate, ctrlWrapper(ctrl.logout));
 router.patch(
   "/avatars",
   authenticate,
-  upload.single("avatar"),
+  upload.single("avatars"),
   ctrlWrapper(ctrl.updateAvatar)
 );
 
