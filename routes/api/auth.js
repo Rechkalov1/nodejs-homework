@@ -6,11 +6,20 @@ const { validateBody, authenticate, upload } = require("../../middleware");
 
 const router = express.Router();
 
+// signup
 router.post(
   "/register",
   validateBody(schemas.registerSchema),
   ctrlWrapper(ctrl.register)
 );
+router.get("/verify/:verificationCode", ctrlWrapper(ctrl.verify));
+router.post(
+  "/verify",
+  validateBody(schemas.emailSchema),
+  ctrlWrapper(ctrl.resendVerifyEmail)
+);
+
+// signin
 router.post(
   "/login",
   validateBody(schemas.loginSchema),
